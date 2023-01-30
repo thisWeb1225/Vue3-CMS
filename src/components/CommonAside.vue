@@ -1,0 +1,114 @@
+<template>
+  <el-aside :width="!$store.state.isCollapse ? 
+  'auto' : '160px'">
+    <el-menu 
+      class="el-menu-vertical-demo" 
+      background-color="#1D1D3F" 
+      text-color="#fff"
+      :collapse="!$store.state.isCollapse"
+      :collapse-transition="false"
+    >
+      <h2 v-if="$store.state.isCollapse">後台管理</h2>
+      <h2 v-else>後台</h2>
+      <el-menu-item 
+        v-for="item in noChildren()" 
+        :index="item.path" 
+        :key="item.path"
+        @click="clickMenu(item)"
+      >
+        <component class="icons" :is="item.icon"></component>
+        <span>{{ item.label }}</span>
+      </el-menu-item>
+      <el-sub-menu 
+        v-for="item in hasChildren()"
+        :index="item.path"
+        :key="item.path"
+      >
+        <template #title>
+          <component class="icons" :is="item.icon"></component>
+          <span>{{ item.label }}</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item 
+            v-for="subItem in item.children"
+            :index="subItem.path" 
+            :key="subItem.path"
+            @click="clickMenu(subItem)"
+          >
+            <component class="icons" :is="subItem.icon"></component>
+            <span>{{ subItem.label }}</span>
+          </el-menu-item>
+        </el-menu-item-group>
+      </el-sub-menu>
+    </el-menu>
+  </el-aside>
+</template>
+
+<script setup>
+import { useRouter } from 'vue-router';
+
+const list = [
+  {
+    path: '/user',
+    name: 'user',
+    label: '用戶管理',
+    icon: 'user',
+    url: 'UserManage/UserManage',
+  },
+  {
+    path: '/other',
+    label: '其它',
+    icon: 'location',
+    children: [
+      {
+        path: '/page1',
+        name: 'page1',
+        label: '頁面1',
+        icon: 'setting',
+        url: 'Other/PageOne',
+      },
+      {
+        path: '/page2',
+        name: 'page2',
+        label: '頁面2',
+        icon: 'setting',
+        url: 'Other/PageTwo',
+      }
+    ]
+  },
+]
+
+const noChildren = () => {
+  return list.filter(item => !item.children);
+}
+const hasChildren = () => {
+  return list.filter(item => item.children);
+}
+
+const router = useRouter();
+
+const clickMenu = (item) => {
+  router.push({name:item.name})
+}
+
+</script>
+
+<style scoped>
+.icons {
+  min-width: 18px;
+  height: 18px;
+  margin-right: 4px;
+}
+
+.el-menu {
+  border-right: none;
+}
+
+.el-menu h2 {
+  margin: 0;
+  color: #fff;
+  font-size: 1rem;
+  text-align: center;
+  padding-block: 24px;
+}
+</style>
