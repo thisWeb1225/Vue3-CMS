@@ -1,4 +1,78 @@
 # Vue 3 後台管理系統 練習
 
-Vue3 + Vite + Vue Router + Vuex + Element plus
+Vue3 + Vite + Vue Router + Vuex + Element plus + mock.js + axios + EChart
+---
 
+下面是練習時做的筆記，僅供參考。
+
+## 利用 mock.js 來模擬後端數據 
+[mock.js 文檔地址](https://github.com/nuysoft/Mock/wiki)  
+mockjs 目錄在 ./src/api/mockData/ 裡面，  
+./src/api/mockData/home.js export 一個物件，裡面有一個函數會回傳 code 和 data，  
+並在 ./src/api/mock.js 裡  
+利用 `Mock.mock(url, template)` 來模擬後端接口地址和數據  
+也可以利用 fastmock 這個網站去模擬線上接口
+
+除此之外也有二次封裝 axios 來模擬實際開發情形
+
+## 為甚麼要二次封裝 axios？
+若有多個後端接口，就必須要重複寫 axios，每個接口又都要處理成功和失敗的情況，  
+所以我們利用二次封裝 axios 來做請求前和請求後的統一處理。  
+  
+除此之外，也可以利用二次封裝來檢測現在的環境，若是線上環境就禁用 mock 數據。  
+這樣後端可能若有多個接口，有可以根據單個接口是否完成來決定是否要用 mock 數據。因此二次封裝 axios 是很重要的
+
+封裝的目錄在 ./src/api/request.js  
+
+## 怎麼二次封裝 axios？
+封裝的目錄在 ./src/api/request.js  
+歡迎搭配程式碼參考  
+
+首先要創建 axios 實例  
+之後利用實例提供的攔截器(interceptors) 來針對 request 和 response  來處理  
+request 是請求前，我們可以自定義 header 和 處理 token 認證
+response 是請求後，可以根據請求後的狀況去做處理，例如 code 不對的時回傳後端寫好的錯誤訊息
+
+接著就可以寫封裝的核心函數 request(options)  
+先判斷 options.method 是甚麼，並默認 get  
+若是 get 就讓 params = data
+
+然後判斷是否為 mock
+
+接著對環境做判斷，若是線上環境就禁止 mockApi
+
+## 如何在 Vue3 中使用自己掛載到全局的變量
+在 入口文件 main.js 中
+```js
+app.config.globalProperties.$api = api;
+```
+這個 api 是引入自己寫的對整個項目的 api 管理
+```js
+// ./src/api/api.js
+
+import request from './request';
+
+export default {
+  // home 組件，左側表格數據獲取
+  getTableData: (params) => {
+    return request({
+      url: '',
+      method: 'get',
+      data: params,
+      isMock: true,
+    });
+  },
+};
+
+```
+接著在要使用的文件中獲得當前的 Vue 實例
+```js
+import { getCurrentInstance } from 'vue';
+const { proxy } = getCurrentInstance();
+
+// 使用 $api
+proxy.$api.getTableData()
+```
+## 遇到的 CSS 問題
+1. 用 grid 需要決定排序的方向，預設順序是由左至右，在由上至下，  
+若要改成先由上至下，再由左至右，可以修改 `grid-auto-flow: column`
