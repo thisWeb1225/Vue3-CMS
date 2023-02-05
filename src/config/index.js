@@ -12,7 +12,7 @@ const env = import.meta.env.MODE || 'prod';
 const EnvConfig = {
   development: {
     baseApi: '/api',
-    mockApi: '/home/api',
+    mockApi: '/',
   },
   test: {
     baseApi: '//test.future.com/api',

@@ -46,6 +46,9 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+
+const store = useStore();
 
 const list = [
   {
@@ -88,7 +91,11 @@ const hasChildren = () => {
 const router = useRouter();
 
 const clickMenu = (item) => {
+  // 控制路由
   router.push({name:item.name})
+  
+  // 控制麵包屑 menu
+  store.commit('selectMenu', item)
 }
 
 </script>

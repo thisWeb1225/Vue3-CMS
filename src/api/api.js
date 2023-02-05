@@ -8,7 +8,7 @@ export default {
   // home 組件，左側表格數據獲取
   getTableData: (params) => {
     return request({
-      url: '/tableData',
+      url: '/home/api/tableData',
       method: 'get',
       data: params,
       isMock: true,
@@ -17,7 +17,7 @@ export default {
 
   getCountData: (params) => {
     return request({
-      url: '/countData',
+      url: '/home/api/countData',
       method: 'get',
       data: params,
       isMock: true,
@@ -26,10 +26,19 @@ export default {
 
   getChartData: (params) => {
     return request({
-      url: '/chartData',
+      url: '/home/api/chartData',
       method: 'get',
       data: params,
       isMock: true,
+    });
+  },
+
+  getUserData: (params) => {
+    return request({
+      url: '/user/getUser',
+      method: 'get',
+      data: params,
+      mock: true,
     });
   },
 };

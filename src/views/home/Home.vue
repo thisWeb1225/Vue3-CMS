@@ -1,6 +1,6 @@
 <template>
   <el-row class="home" :gutter="20">
-    <el-col :span="10" style="margin-top: 8px">
+    <el-col :span="8">
       <el-card shadow="hover">
         <div class="user">
           <div class="user__info">
@@ -26,7 +26,7 @@
         </el-table>
       </el-card>
     </el-col>
-    <el-col :span="14" style="margin-top: 8px">
+    <el-col :span="16">
       <div class="order">
         <el-card
         v-for="item in countData"
@@ -41,9 +41,19 @@
           </div>
         </el-card>
       </div>
-      <el-card style="height: 280px; margin-top: 16px">
-        <div ref="echart" style="height: 280px"></div>
-      </el-card>
+
+      <div class="graph">
+        <el-card class="graph__line">
+          <div ref="echart" style="height: 280px"></div>
+        </el-card>
+        <el-card>
+          <div ref="userechart" style="height: 280px"></div>
+        </el-card>
+        <el-card>
+            <div ref="videoechart" style="height: 280px"></div>
+        </el-card>
+        
+      </div>
     </el-col>
   </el-row>
 </template>
@@ -51,6 +61,7 @@
 <script setup>
 import { onMounted, ref, reactive, getCurrentInstance } from 'vue';
 import * as echarts from 'echarts'
+// import {xOptions, pieOptions} from './../../js/echartSetting'
 
 const {proxy} = getCurrentInstance();
 
@@ -77,9 +88,7 @@ const getCountList = async () => {
 
 // Echart 設定
 let xOptions = reactive({
-  title: {
-    text: "訂單折線圖"
-  },
+
   textStyle: {
     color: '#333',
   },
@@ -114,7 +123,6 @@ let pieOptions = reactive({
   tooltip: {
     trigger: 'item',
   },
-  color: ['#2ec7c9', '#b6a2de', '5ab1ef'],
   series: [],
 })
 let orderData = reactive({
@@ -131,28 +139,63 @@ let videoData =reactive({
 
 const getChartData = async () => {
   let result = await proxy.$api.getChartData()
-  console.log(result)
-  // countData.value = res.countData;
-  let res = result.orderData;
+  let orderRes = result.orderData;
   let userRes = result.userData;
-  let videoData = result.videoData;
+  let videoRes = result.videoData;
 
-  orderData.xData = res.date;
-  const keyArray = Object.keys(res.data[0]);
+  orderData.xData = orderRes.date;
+  const keyArray = Object.keys(orderRes.data[0]);
   const series = [];
   keyArray.forEach((key) => {
     series.push({
       name: key,
-      data: res.data.map(item => item[key]),
+      data: orderRes.data.map(item => item[key]),
       type: 'line'
     })
   })
   orderData.series = series;
   xOptions.xAxis.data = orderData.xData;
   xOptions.series = orderData.series;
+  xOptions.title = {
+    text: '訂單折線圖'
+  }
   // 渲染
-  let hEcharts = echarts.init(proxy.$refs['echart'])
-  hEcharts.setOption(xOptions);
+  let orderEcharts = echarts.init(proxy.$refs['echart'])
+  orderEcharts.setOption(xOptions);
+
+  // 柱狀圖渲染
+  userData.xData = userRes.map(item => item.date);
+  userData.series = [
+    {
+      name: '新增用戶',
+      data: userRes.map(item => item.new),
+      type: 'bar'
+    },
+    {
+      name: '活躍用戶',
+      data: userRes.map(item => item.active),
+      type: 'bar'
+    },
+  ];
+  xOptions.xAxis.data = userData.xData;
+  xOptions.series = userData.series;
+  xOptions.title = {
+    text: '用戶柱狀圖'
+  }
+  let userEcharts = echarts.init(proxy.$refs['userechart'])
+  userEcharts.setOption(xOptions);
+
+  // 圓餅圖
+  videoRes.series = [
+    {
+      data: videoRes,
+      type: 'pie'
+    }
+  ];
+  pieOptions.series = videoRes.series;
+  let videoEchart = echarts.init(proxy.$refs['videoechart']);
+  videoEchart.setOption(pieOptions)
+
 }
 ;
 
@@ -226,5 +269,17 @@ onMounted(() => {
   font-size: 0.75rem;
   margin-top: 16px;
   color: #888;
+}
+
+.graph {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.graph__line {
+  grid-area: 1 / 1 / 3 / 3;
 }
 </style>

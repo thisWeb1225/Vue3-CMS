@@ -7,7 +7,10 @@
           <Menu />
         </el-icon>
       </el-button>
-      <h3>首頁</h3>
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/' }">首頁</el-breadcrumb-item>
+        <el-breadcrumb-item :to="currentMenu.path" v-if="currentMenu">{{ currentMenu.label }}</el-breadcrumb-item>
+      </el-breadcrumb>
     </div>
     <div class="r-content">
       <el-dropdown>
@@ -26,6 +29,7 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
@@ -37,6 +41,12 @@ const getImage = (user) => {
 const handleCollapse = () => {
   store.commit('updateIsCollapse');
 }
+
+let currentMenu = computed(() => {
+  return store.state.currentMenu;
+})
+
+
 </script>
 
 <style scoped>
