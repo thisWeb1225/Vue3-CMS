@@ -5,6 +5,13 @@ function param2Obj(url) {
   if (!search) {
     return;
   }
+
+  /**
+   * 將雙引號替換為反斜線和雙引號的序列，以使JSON字串具有有效的引號格式。
+   * 將&符號替換為逗號和雙引號的序列，以將query string轉換為JSON字串中的一組鍵值對。
+   * 將等號替換為冒號，以將鍵和值分隔開
+   */
+
   return JSON.parse(
     '{"' +
       decodeURIComponent(search)
@@ -63,10 +70,18 @@ export default {
   // },
 
   getUserList: (config) => {
+    const { page = 1, limit = 20 } = param2Obj(config.url);
+    console.log(config.url);
+    console.log(param2Obj(config.url));
+    const pageList = List.filter(
+      (item, index) => index < limit * page && index >= limit * (page - 1)
+    );
     return {
       code: 200,
       data: {
-        list: List,
+        list: pageList,
+        count: List.length,
+        totalPage: List.length / pageList.lengthv,
       },
     };
   },

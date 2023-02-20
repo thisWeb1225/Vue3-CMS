@@ -41,12 +41,49 @@ response 是請求後，可以根據請求後的狀況去做處理，例如 code
 
 接著對環境做判斷，若是線上環境就禁止 mockApi
 
+## 在用戶管理的頁面是如何將 200 名用戶資料拆分好幾頁呢？
+在 ./src/api/mockData/user.js 中有一個 `param2Obh` 函數
+```js
+function param2Obj(url) {
+  const search = url.split('?')[1];
+  if (!search) {
+    return;
+  }
+  return JSON.parse(
+    '{"' +
+      decodeURIComponent(search)
+        .replace(/"/g, '\\"')
+        .replace(/&/g, '","')
+        .replace(/=/g, '":"') +
+      '"}'
+  );
+}
+```
+他會接收一個 url 參數，並使用 `decodeURIComponent` 來解碼URL的query string  
+當我們在網址中傳遞一些參數時，例如 http://example.com/?name=John&age=30，這些參數會被稱為query string，以 ? 開頭，各個參數用 & 分隔，而每個參數由鍵和值組成，由等號 = 分隔。  
+```js
+const url = new URL('http://example.com/?name=John%20Doe&age=30');
+const search = url.split('?')[1];
+const decodedSearch = decodeURIComponent(search);
+console.log(decodedSearch);
+
+// 輸出
+// name=John Doe&age=30
+```
+處理完 URL 的解析函數後，我們在 `getUserList()` 函數會接收到前端傳回來的參數 config  
+這個參數的值是 /user/getUser?total=200&page=3 的形式  
+所以利用 `param2Obj` 來去處理 config 參數  
+
+至於為什麼會是這個形式，是因為我們在 ./src/api/request.js 中有封裝好 axios
+
+
 ## 如何在 Vue3 中使用自己掛載到全局的變量
 在 入口文件 main.js 中
 ```js
+import api from './api/api';
 app.config.globalProperties.$api = api;
 ```
-這個 api 是引入自己寫的對整個項目的 api 管理
+這個 api 是引入自己寫的對整個項目的 api 管理，也就是下面的 getTableData
 ```js
 // ./src/api/api.js
 
@@ -65,6 +102,7 @@ export default {
 };
 
 ```
+
 接著在要使用的文件中獲得當前的 Vue 實例
 ```js
 import { getCurrentInstance } from 'vue';
