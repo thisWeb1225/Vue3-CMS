@@ -2,21 +2,32 @@
   <el-header>
     <div class="l-content">
       <!-- icon -->
-      <el-button size="small" plain @click="handleCollapse">
+      <el-button
+        size="small"
+        plain
+        @click="handleCollapse"
+      >
         <el-icon :size="15">
           <Menu />
         </el-icon>
       </el-button>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">首頁</el-breadcrumb-item>
-        <el-breadcrumb-item :to="currentMenu.path" v-if="currentMenu">{{ currentMenu.label }}</el-breadcrumb-item>
+        <el-breadcrumb-item
+          :to="currentMenu.path"
+          v-if="currentMenu"
+        >{{ currentMenu.label }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="r-content">
       <el-dropdown>
         <span class="el-dropdown-link">
-          <img class="user" :src="getImage('user')" alt="user" >
-         </span>
+          <img
+            class="user"
+            :src="getImage('user')"
+            alt="user"
+          >
+        </span>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item>個人中心</el-dropdown-item>
@@ -58,11 +69,13 @@ let currentMenu = computed(() => {
   background: #fff;
   color: #fff;
 }
+
 .r-content .user {
   width: 36px;
   height: 36px;
   border-radius: 50%;
 }
+
 .l-content {
   display: flex;
   align-items: center;

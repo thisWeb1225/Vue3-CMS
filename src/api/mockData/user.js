@@ -69,13 +69,19 @@ export default {
   //   };
   // },
 
+  /**
+   *
+   * @param {*} config
+   * @returns
+   */
+
   getUserList: (config) => {
-    const { page = 1, limit = 20 } = param2Obj(config.url);
-    console.log(config.url);
-    console.log(param2Obj(config.url));
+    const { name, page = 1, limit = 20 } = param2Obj(config.url);
+
     const pageList = List.filter(
       (item, index) => index < limit * page && index >= limit * (page - 1)
     );
+
     return {
       code: 200,
       data: {

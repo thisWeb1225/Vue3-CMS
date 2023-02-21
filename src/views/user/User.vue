@@ -1,9 +1,32 @@
 <template>
-  <div>
+  <div class="user__header">
+    <el-button type="primary">+ 新增</el-button>
+    <el-form
+      :inline="true"
+      :model="formInline"
+      class="search"
+    >
+      <el-form-item label="搜尋：">
+        <el-input
+          v-model="formInline.keyword"
+          placeholder="請輸入使用者的名字"
+        />
+      </el-form-item>
+
+      <el-form-item>
+        <el-button
+          type="primary"
+          @click="handleSearch"
+        >搜尋</el-button>
+      </el-form-item>
+    </el-form>
+  </div>
+  <div class="table">
     <el-table
       :data="list"
       style="width: 100%"
       height="600px"
+      class="table__main"
     >
       <el-table-column
         v-for="item in tableLabel"
@@ -37,6 +60,7 @@
       layout="prev, pager, next"
       :total="config.total"
       @current-change="changePage"
+      class="table__pagination"
     />
   </div>
 </template>
@@ -75,17 +99,18 @@ const tableLabel = reactive([
 const config = reactive({
   total: 0,
   page: 1,
+  name: ''
 })
 
 const getUserData = async (config) => {
-    let res = await proxy.$api.getUserData(config);
+  let res = await proxy.$api.getUserData(config);
 
-    config.total = res.count
-    list.value = res.list.map(item => {
-      item.genderLabel = item.gender === 0 ? '女' : '男';
-      return item;
-    });
-  }
+  config.total = res.count
+  list.value = res.list.map(item => {
+    item.genderLabel = item.gender === 0 ? '女' : '男';
+    return item;
+  });
+}
 
 onMounted(() => {
   getUserData(config)
@@ -95,8 +120,38 @@ const changePage = (page) => {
   config.page = page;
   getUserData(config);
 }
+
+const formInline = reactive({
+  keyword: ''
+})
+
+const handleSearch = () => {
+  config.name = formInline.keyword;
+  getUserData(config)
+}
 </script>
 
-<style scoped>.el-pagination {
+<style scoped>
+
+.table {
+  position: relative;
+}
+
+.table__main {
+  max-height: 550px;
+}
+
+.table__pagination {
   margin-top: 24px
-}</style>
+}
+
+.user__header {
+  display: flex;
+}
+
+.search {
+  margin-left: auto;
+}
+
+
+</style>

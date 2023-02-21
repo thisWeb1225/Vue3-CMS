@@ -2,10 +2,10 @@
   <div class="common-layout">
     <el-container>
       <CommonAside></CommonAside>
-      <el-container class="r-content">
+      <el-container class="layout__r">
         <CommonHeader></CommonHeader>
         <CommonTab></CommonTab>
-        <el-main>
+        <el-main class="layout__r-main">
           <router-view></router-view>
         </el-main>
       </el-container>
@@ -20,9 +20,14 @@ import CommonTab from '../components/CommonTab.vue';
 </script>
 
 <style>
-.r-content {
+.layout__r {
   flex-direction: column;
 }
+
+.layout__r-main {
+  padding-block: 0;
+}
+
 .common-layout {
   height: 100%;
   background-color: #EEEEEE;
@@ -35,4 +40,5 @@ import CommonTab from '../components/CommonTab.vue';
 .common-layout .el-container .el-aside .el-menu {
   height: 100%;
 }
+
 </style>

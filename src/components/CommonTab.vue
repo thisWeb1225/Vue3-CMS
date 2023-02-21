@@ -6,7 +6,8 @@
       :key="tag.name"
       :closable="tag.name !== 'home'"
       :disable-transitions="false"
-      :effect="route.name === tag.name ? 'dark' : 'plain'"
+      type="info"
+      :effect="route.name === tag.name ? 'plain' : 'light'"
       @click="changeMenu(tag)"
       @close="handleClose(tag, index)"
     >
