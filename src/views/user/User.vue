@@ -79,10 +79,14 @@
       <el-form
         :inline="true"
         :model="formInline"
+        ref="formUserDom"
       >
         <el-row>
           <el-col :span="12">
-            <el-form-item label="姓名">
+            <el-form-item
+              label="姓名"
+              prop="name"
+            >
               <el-input
                 v-model="formUser.name"
                 placeholder="請輸入姓名"
@@ -90,9 +94,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="年齡">
+            <el-form-item
+              label="年齡"
+              prop="age"
+            >
               <el-input
-                v-model="formUser.name"
+                v-model="formUser.age"
                 placeholder="請輸入年齡"
               />
             </el-form-item>
@@ -100,7 +107,10 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="性別">
+            <el-form-item
+              label="性別"
+              prop="genderLabel"
+            >
               <el-select
                 v-model="formUser.genderLabel"
                 placeholder="請選擇性別"
@@ -117,7 +127,10 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="出生日期">
+            <el-form-item
+              label="出生日期"
+              prop="birth"
+            >
               <el-date-picker
                 v-model="formUser.birth"
                 type="date"
@@ -128,7 +141,10 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-form-item label="地址">
+          <el-form-item
+            label="地址"
+            prop="addr"
+          >
             <el-input
               v-model="formUser.addr"
               placeholder="請輸入地址"
@@ -139,7 +155,7 @@
           <el-button @click="dialogVisible = false">取消</el-button>
           <el-button
             type="primary"
-            @click="onSubmit"
+            @click="addUser"
           >新增</el-button>
         </el-row>
       </el-form>
@@ -226,7 +242,9 @@ const handleClose = (done) => {
     })
 }
 
-// add user data
+/**
+ * add user data
+ */
 const formUser = reactive({
   name: '', // user's name
   age: '',
@@ -234,6 +252,27 @@ const formUser = reactive({
   birth: '',
   addr: '',
 })
+
+const timeFormat = (birth) => {
+  let time = new Date(birth)
+  let year = time.getFullYear();
+  let month = time.getMonth() + 1;
+  let date = time.getDate();
+  function add(m) {
+    return m < 10 ? '0' + m : m
+  }
+  return `${year}-${add(month)}-${add(date)}`
+}
+
+const addUser = async () => {
+  formUser.birth = timeFormat(formUser.birth)
+  let res = await proxy.$api.addUser(formUser)
+  if (res) {
+    formUser.name = formUser.age = formUser.genderLabel = formUser.birth = formUser.addr = '';
+    dialogVisible.value = false;
+    getUserData(config);
+  }
+}
 </script>
 
 <style scoped>
@@ -259,5 +298,4 @@ const formUser = reactive({
 
 .dialog__btnSection {
   justify-content: flex-end;
-}
-</style>
+}</style>

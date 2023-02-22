@@ -41,4 +41,13 @@ export default {
       mock: true,
     });
   },
+
+  addUser: (params) => {
+    return request({
+      url: '/user/add',
+      method: 'post',
+      data: params,
+      mock: true,
+    });
+  },
 };

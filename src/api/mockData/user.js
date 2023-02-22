@@ -69,16 +69,16 @@ export default {
   //   };
   // },
 
-  /**
-   *
-   * @param {*} config
-   * @returns
-   */
-
   getUserList: (config) => {
     const { name, page = 1, limit = 20 } = param2Obj(config.url);
 
-    const pageList = List.filter(
+    // search name
+    const nameFilterList = List.filter((user) => {
+      if (user.name.indexOf(name) === -1) return false;
+      else return true;
+    });
+
+    const pageList = nameFilterList.filter(
       (item, index) => index < limit * page && index >= limit * (page - 1)
     );
 
@@ -88,6 +88,37 @@ export default {
         list: pageList,
         count: List.length,
         totalPage: List.length / pageList.lengthv,
+      },
+    };
+  },
+
+  /**
+   * @typedef {Object} Config
+   * @property {String} url - the mock api's url
+   * @property {String} type - post | get
+   * @property {Object} body - the data of post，is a JSON
+   *
+   * @param {Config} config
+   * @return {{code: number, data: {message: string}}}
+   */
+
+  addUser: (config) => {
+    const { name, addr, age, birth, gender } = JSON.parse(config.body);
+    console.log(JSON.parse(config.body));
+    console.log(config);
+    List.unshift({
+      id: Mock.Random.guid(),
+      name,
+      addr,
+      age,
+      birth,
+      gender,
+    });
+
+    return {
+      code: 200,
+      data: {
+        message: '添加成功',
       },
     };
   },
