@@ -50,4 +50,13 @@ export default {
       mock: true,
     });
   },
+
+  updateUser: (params) => {
+    return request({
+      url: '/user/edit',
+      method: 'post',
+      data: params,
+      mock: true,
+    });
+  },
 };

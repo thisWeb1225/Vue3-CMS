@@ -50,120 +50,120 @@
                   link
                   type="primary"
                   size="small"
-                  @click="editUser(scope.row)"
-                >編輯</el-button>
-                <el-button
-                  link
-                  type="danger"
-                  size="small"
-                >刪除</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-          <el-pagination
-            background
-            layout="prev, pager, next"
-            :total="config.total"
-            @current-change="changePage"
-            class="table__pagination"
-          />
-        </div>
+                        @click="handleEdit(scope.row)"
+                      >編輯</el-button>
+                      <el-button
+                        link
+                        type="danger"
+                        size="small"
+                      >刪除</el-button>
+                    </template>
+                  </el-table-column>
+                </el-table>
+                <el-pagination
+                  background
+                  layout="prev, pager, next"
+                  :total="config.total"
+                  @current-change="changePage"
+                  class="table__pagination"
+                />
+              </div>
 
-        <div class="dialog">
-          <el-dialog
-            v-model="dialogVisible"
-            :title="isEditUser ? '編輯用戶' : '新增用戶'"
-            width="45%"
-            :before-close="handleClose"
-          >
-            <el-form
-              :inline="true"
-              :model="userForm"
-              ref="userFormRef"
-            >
-              <el-row>
-                <el-col :span="12">
-                  <el-form-item
-                    label="姓名"
-                    prop="name"
-                    :rules="[{ required: true, message: '請輸入姓名' }]"
-                  >
-                    <el-input
-                      v-model="userForm.name"
-                      placeholder="請輸入姓名"
-                    />
-                  </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                  <el-form-item
-                    label="年齡"
-                    prop="age"
-                    :rules="[
-                      { required: true, message: '請輸入年齡' },
-                      { type: 'number', message: '年齡請輸入數字' },
-                    ]"
-                  >
-                    <el-input
-                      v-model.number="userForm.age"
-                      placeholder="請輸入年齡"
-                    />
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row>
-                <el-col :span="12">
-                  <el-form-item
-                    label="性別"
-                    prop="genderLabel"
-                  >
-                    <el-select
-                      v-model="userForm.genderLabel"
-                      placeholder="請選擇性別"
-                    >
-                      <el-option
-                        label="男"
-                        value="0"
-                      />
-                      <el-option
-                        label="女"
-                        value="1"
-                      />
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                  <el-form-item
-                    label="出生日期"
-                    prop="birth"
-                    :rules="[{ required: true, message: '請輸入出生日期' }]"
-                  >
-                    <el-date-picker
-                      v-model="userForm.birth"
-                      type="date"
-                      placeholder="請選擇出生日期"
-                      style="width: 100%"
-                    />
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row>
-                <el-form-item
-                  label="地址"
-                  prop="addr"
-                  :rules="[{ required: true, message: '請輸入地址' }]"
+              <div class="dialog">
+                <el-dialog
+                  v-model="dialogVisible"
+                  :title="isEditUser ? '編輯用戶' : '新增用戶'"
+                  width="45%"
+                  :before-close="handleClose"
                 >
-                  <el-input
-                    v-model="userForm.addr"
-                    placeholder="請輸入地址"
-                  />
-                </el-form-item>
-              </el-row>
-              <el-row class="dialog__btnSection">
-                <el-button @click="handleDialogCancle">取消</el-button>
-                <el-button
-                  type="primary"
-                  @click="addUser"
-                >新增</el-button>
+                  <el-form
+                    :inline="true"
+                    :model="userForm"
+                    ref="userFormRef"
+                  >
+                    <el-row>
+                      <el-col :span="12">
+                        <el-form-item
+                          label="姓名"
+                          prop="name"
+                          :rules="[{ required: true, message: '請輸入姓名' }]"
+                        >
+                          <el-input
+                            v-model="userForm.name"
+                            placeholder="請輸入姓名"
+                          />
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="12">
+                        <el-form-item
+                          label="年齡"
+                          prop="age"
+                          :rules="[
+                            { required: true, message: '請輸入年齡' },
+                            { type: 'number', message: '年齡請輸入數字' },
+                          ]"
+                        >
+                          <el-input
+                            v-model.number="userForm.age"
+                            placeholder="請輸入年齡"
+                          />
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row>
+                      <el-col :span="12">
+                        <el-form-item
+                          label="性別"
+                          prop="genderLabel"
+                        >
+                          <el-select
+                            v-model="userForm.gender"
+                            placeholder="請選擇性別"
+                          >
+                            <el-option
+                              label="男"
+                              value="0"
+                            />
+                            <el-option
+                              label="女"
+                              value="1"
+                            />
+                          </el-select>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="12">
+                        <el-form-item
+                          label="出生日期"
+                          prop="birth"
+                          :rules="[{ required: true, message: '請輸入出生日期' }]"
+                        >
+                          <el-date-picker
+                            v-model="userForm.birth"
+                            type="date"
+                            placeholder="請選擇出生日期"
+                            style="width: 100%"
+                          />
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row>
+                      <el-form-item
+                        label="地址"
+                        prop="addr"
+                        :rules="[{ required: true, message: '請輸入地址' }]"
+                      >
+                        <el-input
+                          v-model="userForm.addr"
+                          placeholder="請輸入地址"
+                        />
+                      </el-form-item>
+                    </el-row>
+                    <el-row class="dialog__btnSection">
+                      <el-button @click="handleDialogCancle">取消</el-button>
+                      <el-button
+                        type="primary"
+                        @click="handleSubmit"
+                      >確認</el-button>
               </el-row>
             </el-form>
           </el-dialog>
@@ -214,7 +214,7 @@ const getUserData = async (config) => {
 
   config.total = res.count;
   list.value = res.list.map((item) => {
-    item.genderLabel = item.gender === 0 ? '女' : '男';
+    item.genderLabel = item.gender === 0 ? '男' : '女';
     return item;
   });
 };
@@ -263,16 +263,17 @@ const handleDialogCancle = () => {
 };
 
 /**
- * add user data
+ * add or edit user data
  */
 const userForm = reactive({
   name: '', // user's name
   age: '',
-  genderLabel: '',
+  gender: '',
   birth: '',
   addr: '',
 });
 
+// helper function
 const timeFormat = (birth) => {
   let time = new Date(birth);
   let year = time.getFullYear();
@@ -284,37 +285,54 @@ const timeFormat = (birth) => {
   return `${year}-${add(month)}-${add(date)}`;
 };
 
-// add user data
-const addUser = () => {
+// when click the submit button
+const handleSubmit = () => {
   proxy.$refs.userFormRef.validate(async (valid) => {
     if (valid) {
-      userForm.birth = timeFormat(userForm.birth);
-      let res = await proxy.$api.addUser(userForm);
-      if (res) {
-        proxy.$refs.userFormRef.resetFields();
-        proxy.$refs.userFormRef.clearValidate();
-        dialogVisible.value = false;
-        getUserData(config);
+      if (!isEditUser.value) {
+        // add user
+        userForm.birth = timeFormat(userForm.birth);
+        let res = await proxy.$api.addUser(userForm);
+        if (res) {
+          proxy.$refs.userFormRef.resetFields();
+          proxy.$refs.userFormRef.clearValidate();
+          dialogVisible.value = false;
+          getUserData(config);
+        }
+      } else {
+        // edit user
+        console.log(userForm)
+        userForm.birth = timeFormat(userForm.birth);
+        let res = await proxy.$api.updateUser(userForm)
+        if (res) {
+          proxy.$refs.userFormRef.resetFields();
+          proxy.$refs.userFormRef.clearValidate();
+          dialogVisible.value = false;
+          getUserData(config);
+        }
       }
     }
   });
 };
+
 /**
  * Edit user
  */
 // Determine if it is a new user
 const isEditUser = ref(false);
-const editUser = (row) => {
+
+// click edit user button
+const handleEdit = (row) => {
   dialogVisible.value = true;
   isEditUser.value = true;
-
+  row.gender === 0 ? (row.gender = '男') : (row.gender = '女');
   // shallow copy
   proxy.$nextTick(() => {
     Object.assign(userForm, row);
   });
 };
 
-// add user
+// click add user button
 const handleAdd = () => {
   dialogVisible.value = true;
   isEditUser.value = false;
@@ -344,4 +362,5 @@ const handleAdd = () => {
 
 .dialog__btnSection {
   justify-content: flex-end;
-}</style>
+}
+</style>

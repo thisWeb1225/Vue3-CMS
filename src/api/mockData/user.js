@@ -122,4 +122,27 @@ export default {
       },
     };
   },
+
+  updateUser: (config) => {
+    const { id, name, addr, age, birth, gender } = JSON.parse(config.body);
+
+    const genderNum = parseInt(gender);
+    console.log(gender, genderNum);
+    List.some((user) => {
+      if (user.id === id) {
+        user.name = name;
+        user.addr = addr;
+        user.age = age;
+        user.birth = birth;
+        user.gender = genderNum;
+      }
+    });
+
+    return {
+      code: 200,
+      data: {
+        message: '修改成功',
+      },
+    };
+  },
 };
