@@ -145,4 +145,20 @@ export default {
       },
     };
   },
+
+  deleteUser: (config) => {
+    const { id } = param2Obj(config.url);
+    if (!id) {
+      return {
+        code: 200,
+        messgae: '參數不正確',
+      };
+    } else {
+      List = List.filter((user) => user.id !== id);
+      return {
+        code: 200,
+        message: '刪除成功',
+      };
+    }
+  },
 };

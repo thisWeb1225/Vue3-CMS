@@ -56,122 +56,122 @@
                         link
                         type="danger"
                         size="small"
-                      >刪除</el-button>
-                    </template>
-                  </el-table-column>
-                </el-table>
-                <el-pagination
-                  background
-                  layout="prev, pager, next"
-                  :total="config.total"
-                  @current-change="changePage"
-                  class="table__pagination"
-                />
-              </div>
-
-              <div class="dialog">
-                <el-dialog
-                  v-model="dialogVisible"
-                  :title="isEditUser ? '編輯用戶' : '新增用戶'"
-                  width="45%"
-                  :before-close="handleClose"
-                >
-                  <el-form
-                    :inline="true"
-                    :model="userForm"
-                    ref="userFormRef"
-                  >
-                    <el-row>
-                      <el-col :span="12">
-                        <el-form-item
-                          label="姓名"
-                          prop="name"
-                          :rules="[{ required: true, message: '請輸入姓名' }]"
-                        >
-                          <el-input
-                            v-model="userForm.name"
-                            placeholder="請輸入姓名"
-                          />
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="12">
-                        <el-form-item
-                          label="年齡"
-                          prop="age"
-                          :rules="[
-                            { required: true, message: '請輸入年齡' },
-                            { type: 'number', message: '年齡請輸入數字' },
-                          ]"
-                        >
-                          <el-input
-                            v-model.number="userForm.age"
-                            placeholder="請輸入年齡"
-                          />
-                        </el-form-item>
-                      </el-col>
-                    </el-row>
-                    <el-row>
-                      <el-col :span="12">
-                        <el-form-item
-                          label="性別"
-                          prop="genderLabel"
-                        >
-                          <el-select
-                            v-model="userForm.gender"
-                            placeholder="請選擇性別"
-                          >
-                            <el-option
-                              label="男"
-                              value="0"
-                            />
-                            <el-option
-                              label="女"
-                              value="1"
-                            />
-                          </el-select>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="12">
-                        <el-form-item
-                          label="出生日期"
-                          prop="birth"
-                          :rules="[{ required: true, message: '請輸入出生日期' }]"
-                        >
-                          <el-date-picker
-                            v-model="userForm.birth"
-                            type="date"
-                            placeholder="請選擇出生日期"
-                            style="width: 100%"
-                          />
-                        </el-form-item>
-                      </el-col>
-                    </el-row>
-                    <el-row>
-                      <el-form-item
-                        label="地址"
-                        prop="addr"
-                        :rules="[{ required: true, message: '請輸入地址' }]"
-                      >
-                        <el-input
-                          v-model="userForm.addr"
-                          placeholder="請輸入地址"
+                                  @click="handleDelete(scope.row)"
+                              >刪除</el-button>
+                            </template>
+                          </el-table-column>
+                        </el-table>
+                        <el-pagination
+                          background
+                          layout="prev, pager, next"
+                          :total="config.total"
+                          @current-change="changePage"
+                          class="table__pagination"
                         />
-                      </el-form-item>
-                    </el-row>
-                    <el-row class="dialog__btnSection">
-                      <el-button @click="handleDialogCancle">取消</el-button>
-                      <el-button
-                        type="primary"
-                        @click="handleSubmit"
-                      >確認</el-button>
-              </el-row>
-            </el-form>
-          </el-dialog>
-        </div>
+                      </div>
+
+                      <div class="dialog">
+                        <el-dialog
+                          v-model="dialogVisible"
+                          :title="isEditUser ? '編輯用戶' : '新增用戶'"
+                          width="45%"
+                          :before-close="handleClose"
+                        >
+                          <el-form
+                            :inline="true"
+                            :model="userForm"
+                            ref="userFormRef"
+                          >
+                            <el-row>
+                              <el-col :span="12">
+                                <el-form-item
+                                  label="姓名"
+                                  prop="name"
+                                  :rules="[{ required: true, message: '請輸入姓名' }]"
+                                >
+                                  <el-input
+                                    v-model="userForm.name"
+                                    placeholder="請輸入姓名"
+                                  />
+                                </el-form-item>
+                              </el-col>
+                              <el-col :span="12">
+                                <el-form-item
+                                  label="年齡"
+                                  prop="age"
+                                  :rules="[
+                                    { required: true, message: '請輸入年齡' },
+                                    { type: 'number', message: '年齡請輸入數字' },
+                                  ]"
+                                >
+                                  <el-input
+                                    v-model.number="userForm.age"
+                                    placeholder="請輸入年齡"
+                                  />
+                                </el-form-item>
+                              </el-col>
+                            </el-row>
+                            <el-row>
+                              <el-col :span="12">
+                                <el-form-item
+                                  label="性別"
+                                  prop="genderLabel"
+                                >
+                                  <el-select
+                                    v-model="userForm.gender"
+                                    placeholder="請選擇性別"
+                                  >
+                                    <el-option
+                                      label="男"
+                                      value="0"
+                                    />
+                                    <el-option
+                                      label="女"
+                                      value="1"
+                                    />
+                                  </el-select>
+                                </el-form-item>
+                              </el-col>
+                              <el-col :span="12">
+                                <el-form-item
+                                  label="出生日期"
+                                  prop="birth"
+                                  :rules="[{ required: true, message: '請輸入出生日期' }]"
+                                >
+                                  <el-date-picker
+                                    v-model="userForm.birth"
+                                    type="date"
+                                    placeholder="請選擇出生日期"
+                                    style="width: 100%"
+                                  />
+                                </el-form-item>
+                              </el-col>
+                            </el-row>
+                            <el-row>
+                              <el-form-item
+                                label="地址"
+                                prop="addr"
+                                :rules="[{ required: true, message: '請輸入地址' }]"
+                              >
+                                <el-input
+                                  v-model="userForm.addr"
+                                  placeholder="請輸入地址"
+                                />
+                              </el-form-item>
+                            </el-row>
+                            <el-row class="dialog__btnSection">
+                              <el-button @click="handleDialogCancle">取消</el-button>
+                              <el-button
+                                type="primary"
+                                @click="handleSubmit"
+                              >確認</el-button>
+                      </el-row>
+                    </el-form>
+                  </el-dialog>
+                </div>
 </template>
 
 <script setup>
-import { ElMessage } from 'element-plus';
 import { onMounted, getCurrentInstance, ref, reactive } from 'vue';
 
 const { proxy } = getCurrentInstance();
@@ -337,6 +337,31 @@ const handleAdd = () => {
   dialogVisible.value = true;
   isEditUser.value = false;
 };
+
+/**
+ * Delete user
+ */
+const handleDelete = (row) => {
+  ElMessageBox.confirm('確定刪除嗎')
+    .then(async () => {
+      await proxy.$api.deleteUser({
+        id: row.id
+      })
+      ElMessage({
+        showClose: true,
+        message: '刪除成功',
+        type: 'success',
+      })
+
+      getUserData(config)
+    })
+    .catch((e) => {
+      ElMessage({
+        showClose: true,
+        message: e,
+      })
+    });
+}
 </script>
 
 <style scoped>

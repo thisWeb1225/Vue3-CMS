@@ -5,7 +5,6 @@
 
 import axios from 'axios';
 import config from '../config';
-import { ElMessage } from 'element-plus';
 
 const NETWORK_ERROR = '網路請求異常，請稍後重試。';
 
