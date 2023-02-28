@@ -26,6 +26,29 @@ app.config.globalProperties.$api = api;
 // 每次刷新頁面都要獲得 menu
 store.commit('addMenu', router);
 
+const checkRouter = (path) => {
+  let hasCheck = router
+    .getRoutes()
+    .filter((route) => route.path === path).length;
+  if (hasCheck) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+router.beforeEach((to, from, next) => {
+  store.commit('getToken');
+  const token = store.state.token;
+  if (!token && to.name !== 'login') {
+    next({ name: 'login' });
+  } else if (!checkRouter(to.path)) {
+    next({ name: 'home' });
+  } else {
+    next();
+  }
+});
+
 app.use(router).use(store).mount('#app');
 
 

@@ -4,30 +4,31 @@
     class="login"
   >
     <h3 class="login__title">
-      系統登陸
-    </h3>
-    <el-form-item>
-      <el-input
-        type="input"
-        placeholder="請輸入帳號"
-        v-model="loginForm.username"
-      >
-      </el-input>
-    </el-form-item>
-    <el-form-item>
-      <el-input
-        type="password"
-        placeholder="請輸入密碼"
-        v-model="loginForm.password"
-      >
-      </el-input>
-    </el-form-item>
-    <el-form-item>
-      <el-button
-        type="primary"
-        @click="login"
-      >登入</el-button>
-    </el-form-item>
+                  Vue3 CMS 登陸
+              </h3>
+              <el-form-item>
+                <el-input
+                  type="input"
+                  placeholder="請輸入帳號"
+                  v-model="loginForm.username"
+                >
+                </el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-input
+                  type="password"
+                  placeholder="請輸入密碼"
+                  v-model="loginForm.password"
+                >
+                </el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-button
+                  type="primary"
+                  @click="login"
+                >登入</el-button>
+              </el-form-item>
+              <p class="login__tag">管理員帳密：admin</p>
   </el-form>
 </template>
 
@@ -41,14 +42,15 @@ const store = useStore();
 const router = useRouter();
 
 const loginForm = reactive({
-  username: 'admin',
-  password: 'admin',
+  username: '',
+  password: '',
 })
 
 const login = async () => {
   const res = await proxy.$api.getMenu(loginForm);
   store.commit('setMenu', res.menu);
   store.commit('addMenu', router);
+  store.commit('setToken', res.token);
   router.push({
     name: 'home'
   })
@@ -75,5 +77,9 @@ const login = async () => {
   text-align: center;
   margin-bottom: 32px;
   color: #23232d;
+}
+
+.login__tag {
+  font-size: 0.8rem;
 }
 </style>

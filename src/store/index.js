@@ -1,4 +1,5 @@
 import { createStore } from 'vuex';
+import jsCookie from 'js-cookie';
 
 export default createStore({
   state: {
@@ -13,6 +14,7 @@ export default createStore({
       },
     ],
     menu: [],
+    token: '',
   },
   mutations: {
     updateIsCollapse(state, payload) {
@@ -72,6 +74,26 @@ export default createStore({
       menuArray.forEach((item) => {
         router.addRoute('index', item);
       });
+    },
+
+    // 登出時清空 menu
+    cleanMenu(state) {
+      state.menu = [];
+      localStorage.removeItem('menu');
+    },
+
+    setToken(state, val) {
+      state.token = val;
+      jsCookie.set('token', val);
+    },
+
+    clearToken(state) {
+      state.token = '';
+      jsCookie.remove('token');
+    },
+
+    getToken(state) {
+      state.token = state.token || jsCookie.get('token');
     },
   },
 });

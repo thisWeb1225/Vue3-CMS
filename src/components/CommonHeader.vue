@@ -31,7 +31,7 @@
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item>個人中心</el-dropdown-item>
-            <el-dropdown-item>退出</el-dropdown-item>
+              <el-dropdown-item @click="logout">退出</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -41,9 +41,11 @@
 
 <script setup>
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 const store = useStore();
+const router = useRouter();
 
 const getImage = (user) => {
   return new URL(`../assets/images/${user}.jpg`, import.meta.url).href;
@@ -57,6 +59,13 @@ let currentMenu = computed(() => {
   return store.state.currentMenu;
 })
 
+const logout = () => {
+  store.commit('cleanMenu');
+  store.commit('clearToken')
+  router.push({
+    name: 'login'
+  })
+}
 
 </script>
 
@@ -85,5 +94,4 @@ let currentMenu = computed(() => {
 .el-button {
   margin-right: 16px;
 }
-
 </style>
