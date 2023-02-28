@@ -111,6 +111,15 @@ const { proxy } = getCurrentInstance();
 // 使用 $api
 proxy.$api.getTableData()
 ```
+
+## 權限管理
+需要根據用戶登陸角色不同，返回左側的菜單欄也不同  
+達到不同權限可以有不同操作  
+
+1. 第一步需要新增登陸頁面 Login.vue
+2. 登陸以後，返回左側菜單欄，`./src/api/mockData/permission.js` 裡模擬後端，並在 `./src/api/api.js` 設置全局的 api，最後一樣在 `./src/api/mock.js` 攔截 api
+3. 儲存資料到 Vuex, aside 組件顯示出來
+
 ## 遇到的 CSS 問題
 1. 用 grid 需要決定排序的方向，預設順序是由左至右，在由上至下，  
 若要改成先由上至下，再由左至右，可以修改 `grid-auto-flow: column`

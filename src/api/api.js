@@ -68,4 +68,14 @@ export default {
       mock: true,
     });
   },
+
+  // 根據權限不同返回不同的 menu
+  getMenu(params) {
+    return request({
+      url: '/permission/getMenu',
+      method: 'post',
+      data: params,
+      mock: true,
+    });
+  },
 };

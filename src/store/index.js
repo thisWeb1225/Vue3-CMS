@@ -12,6 +12,7 @@ export default createStore({
         icon: 'home',
       },
     ],
+    menu: [],
   },
   mutations: {
     updateIsCollapse(state, payload) {
@@ -34,6 +35,12 @@ export default createStore({
         (item) => item.name === val.name
       );
       state.tabsList.splice(removeTag, 1);
+    },
+
+    setMenu(state, val) {
+      state.menu = val;
+      // 刷新頁面後，Vuex 的資料會遺失，所以存到瀏覽器中
+      localStorage.setItem('menu', JSON.stringify(val));
     },
   },
 });
