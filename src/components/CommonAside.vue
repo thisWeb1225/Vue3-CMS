@@ -49,7 +49,9 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 const store = useStore();
+const router = useRouter();
 
+// mock data
 const list = [
   {
     path: '/user',
@@ -81,14 +83,20 @@ const list = [
   },
 ]
 
+// 需要將 vuex 的資料儲存到 localStorage 以達到數據持久化
+// 並用 addMenu 去抓 localStorage 的資料
+store.commit('addMenu', router)
+
+// real data
+const asyncList = store.state.menu;
+
 const noChildren = () => {
-  return list.filter(item => !item.children);
+  return asyncList.filter(item => !item.children);
 }
 const hasChildren = () => {
-  return list.filter(item => item.children);
+  return asyncList.filter(item => item.children);
 }
 
-const router = useRouter();
 
 const clickMenu = (item) => {
   // 控制路由

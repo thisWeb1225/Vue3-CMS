@@ -12,28 +12,27 @@ export default {
         data: {
           menu: [
             {
-              path: '/home',
+              path: '/',
               name: 'home',
               label: '首頁',
-              icon: 's-home',
-              url: 'home/index',
+              icon: 'house',
+              url: 'home/Home',
             },
             {
               path: '/mall',
               name: 'mall',
               label: '商品管理',
               icon: 'video-play',
-              url: 'mall/index',
+              url: 'mall/Index',
             },
             {
               path: '/user',
               name: 'user',
               label: '用戶管理',
               icon: 'user',
-              url: 'user/index',
+              url: 'User/user',
             },
             {
-              path: '/other',
               label: '其它',
               icon: 'location',
               children: [
@@ -42,14 +41,14 @@ export default {
                   name: 'page1',
                   label: '頁面1',
                   icon: 'setting',
-                  url: 'Other/PageOne',
+                  url: 'page1',
                 },
                 {
                   path: '/page2',
                   name: 'page2',
                   label: '頁面2',
                   icon: 'setting',
-                  url: 'Other/PageTwo',
+                  url: 'page2',
                 },
               ],
             },
@@ -64,10 +63,10 @@ export default {
         data: {
           menu: [
             {
-              path: '/home',
+              path: '/',
               name: 'home',
               label: '首頁',
-              icon: 's-home',
+              icon: 'House',
               url: 'home/index',
             },
             {

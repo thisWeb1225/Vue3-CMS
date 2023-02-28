@@ -119,6 +119,7 @@ proxy.$api.getTableData()
 1. 第一步需要新增登陸頁面 Login.vue
 2. 登陸以後，返回左側菜單欄，`./src/api/mockData/permission.js` 裡模擬後端，並在 `./src/api/api.js` 設置全局的 api，最後一樣在 `./src/api/mock.js` 攔截 api
 3. 儲存資料到 Vuex, aside 組件顯示出來
+4. 因為刷新頁面會遺失 Vuex 遺失數據，所以需要存 menu 資料到瀏覽器中，每次刷新從 localStorage 抓資料
 
 ## 遇到的 CSS 問題
 1. 用 grid 需要決定排序的方向，預設順序是由左至右，在由上至下，  

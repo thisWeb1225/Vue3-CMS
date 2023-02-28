@@ -48,6 +48,7 @@ const loginForm = reactive({
 const login = async () => {
   const res = await proxy.$api.getMenu(loginForm);
   store.commit('setMenu', res.menu);
+  store.commit('addMenu', router);
   router.push({
     name: 'home'
   })

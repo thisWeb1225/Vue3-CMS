@@ -22,4 +22,10 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 
 app.config.globalProperties.$api = api;
+
+// 每次刷新頁面都要獲得 menu
+store.commit('addMenu', router);
+
 app.use(router).use(store).mount('#app');
+
+
